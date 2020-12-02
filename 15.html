@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+
+          var canvas;
+          var ctx;
+          var x1=100, y1=100;
+          var x2=200, y2=200;
+          var isPressed1 = false;
+          var isPressed2 = false;
+          var dx1=0, dy1=0;
+          var dx2=0, dy2=0;
+          var size = 50;
+          var color1 = "lightblue";
+          var color2 = "blue";
+
+          function init(){
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            document.addEventListener("mousemove", drag);
+            document.addEventListener("mousedown", down);
+            document.addEventListener("mouseup", up);
+            ctx.fillStyle = color1;
+            ctx.fillRect(x1,y1,size,size);
+
+            ctx.fillStyle = color2;
+            ctx.fillRect(x2,y2,size,size);
+            ctx.strokeRect(0,0,800,400);
+            document.addEventListener("keydown",change);
+          }
+
+          function change(){
+       
+           if(event.keyCode == 97 || event.keyCode == 49) { color1 = "lightblue";}
+           if(event.keyCode == 98 || event.keyCode == 50) { color1 = "pink";}
+           if(event.keyCode == 99 || event.keyCode == 51) { color1 = "lightgreen";}
+           if(event.keyCode == 100 || event.keyCode == 52) { color2 = "blue";}
+           if(event.keyCode == 101 || event.keyCode == 53) { color2 = "red";}
+           if(event.keyCode == 102 || event.keyCode == 54) { color2 = "green";}
+           }
+
+
+          function down(event){
+            dx1 = event.offsetX - x1;
+            dy1 = event.offsetY - y1;
+            dx2 = event.offsetX - x2;
+            dy2 = event.offsetY - y2;
+            
+            if(dx1>0 && dy1>0 && dx1<size && dy1<size){
+            isPressed1 = true;}
+            if(dx2>0 && dy2>0 && dx2<size && dy2<size){
+            isPressed2 = true;}
+          }
+
+          function up(){
+            isPressed1 = false;
+            isPressed2 = false;
+          }
+
+          function drag(event){
+            if (isPressed1){
+              ctx.clearRect(x1,y1,size,size);
+              x1 = event.offsetX - dx1;
+              y1 = event.offsetY - dy1;
+              ctx.fillStyle = "lightgrey";
+              ctx.fillRect(x1,y1,size,size);
+              ctx.strokeRect(0,0,800,400);
+              document.getElementById("rect").value = "1";
+            }else{
+              ctx.fillStyle = color1;
+              ctx.fillRect(x1,y1,size,size);
+              ctx.strokeRect(0,0,800,400); 
+            }
+
+            if (isPressed2){
+              ctx.clearRect(x2,y2,size,size);
+              x2 = event.offsetX - dx2;
+              y2 = event.offsetY - dy2;
+              ctx.fillStyle = "lightgrey";
+              ctx.fillRect(x2,y2,size,size);
+              ctx.strokeRect(0,0,800,400);
+              document.getElementById("rect").value = "2";
+            }else{
+              ctx.fillStyle = color2;
+              ctx.fillRect(x2,y2,size,size);
+              ctx.strokeRect(0,0,800,400); 
+            }
+
+          }
+        
+         
+
+        </script>
+    </head> 
+    <body onload="init()">
+      Квадрат №<input type="text" id="rect"></input>
+      <br>
+      <canvas id="canvas" width="800" height="400"></canvas>
+    </body>
+</html> 
